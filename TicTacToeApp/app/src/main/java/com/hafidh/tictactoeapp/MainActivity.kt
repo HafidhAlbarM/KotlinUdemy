@@ -6,6 +6,8 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.view.*
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -103,9 +105,13 @@ class MainActivity : AppCompatActivity() {
         }
         
         if(winer == 1){
+            player1WinsCount += 1
             Toast.makeText(this, "Pemain 1 memenangkan permainan", Toast.LENGTH_LONG).show()
+            RestartGame()
         }else if(winer == 2){
+            player2WinsCount += 1
             Toast.makeText(this, "Pemain 2 memenangkan permainan", Toast.LENGTH_LONG).show()
+            RestartGame()
         }
     }
 
@@ -116,11 +122,62 @@ class MainActivity : AppCompatActivity() {
                 emptyCells.add(cellId)
             }
         }
-        Log.d("logNya 1", emptyCells.toList().toString())
-        Log.d("logNya 2", emptyCells.size.toString())
+        Log.d("logNya emptyCells", emptyCells.toList().toString())
+        Log.d("logNya size emptyCells", emptyCells.size.toString())
+
+        if(emptyCells.size == 0){
+            RestartGame()
+        }
 
         var randomIndex = Random().nextInt(emptyCells.size)
-        Log.d("logNya 3", randomIndex.toString())
+        Log.d("logNya RandomIndex", randomIndex.toString())
+        var cellId = emptyCells[randomIndex]
+        Log.d("logNya cellId", cellId.toString())
 
+        var buSelected:Button?
+        buSelected = when(cellId){
+            1 -> bu1
+            2 -> bu2
+            3 -> bu3
+            4 -> bu4
+            5 -> bu5
+            6 -> bu6
+            7 -> bu7
+            8 -> bu8
+            9 -> bu9
+            else -> {bu1}
+        }
+
+        playGame(cellId, buSelected)
+    }
+
+    var player1WinsCount:Int = 0
+    var player2WinsCount:Int = 0
+
+    fun RestartGame(){
+        activePlayer = 1
+        player1.clear()
+        player2.clear()
+
+        for(cellId in 1..9){
+            var buSelected:Button?
+            buSelected = when(cellId){
+                1 -> bu1
+                2 -> bu2
+                3 -> bu3
+                4 -> bu4
+                5 -> bu5
+                6 -> bu6
+                7 -> bu7
+                8 -> bu8
+                9 -> bu9
+                else -> {bu1}
+            }
+            buSelected.text=""
+            buSelected.setBackgroundColor(R.color.warnaPutih)
+            buSelected.isEnabled = true
+        }
+
+        Toast.makeText(this,"Player1: $player1WinsCount, Player2: $player2WinsCount", Toast.LENGTH_LONG).show()
     }
 }

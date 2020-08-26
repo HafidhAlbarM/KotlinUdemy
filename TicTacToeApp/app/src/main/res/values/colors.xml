@@ -5,5 +5,8 @@
     <color name="colorAccent">#D81B60</color>
     <color name="warnaBackground">#B8E283</color>
     <color name="warnaKuning">#ebe834</color>
+    <color name="warnaPutih">#ffffff</color>
+    <color name="warnaBiru">#4287f5</color>
+    <color name="warnaHijauGelap">#0b782c</color>
 </resources>
 

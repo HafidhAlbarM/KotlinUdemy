@@ -31,8 +31,8 @@ class MainActivity : AppCompatActivity() {
             R.id.bu8 -> cellId = 8
             R.id.bu9 -> cellId = 9
         }
-        //Log.d("tombol", buSelected.id.toString())
-        //Log.d("tombol: cellId", cellId.toString())
+        Log.d("logNya buSelected", buSelected.id.toString())
+        Log.d("logNya cellId", cellId.toString())
         playGame(cellId, buSelected)
     }
 
@@ -45,12 +45,14 @@ class MainActivity : AppCompatActivity() {
             buSelected.text = "X"
             buSelected.setBackgroundResource(R.color.warnaBiru)
             player1.add(cellId)
+            Log.d("logNya Player 1:", player1.toList().toString())
             activePlayer = 2
             autoPlay()
         }else{
             buSelected.text = "O"
             buSelected.setBackgroundResource(R.color.warnaHijauGelap)
             player2.add(cellId)
+            Log.d("logNya Player 2:", player2.toList().toString())
             activePlayer = 1
         }
 
@@ -160,8 +162,7 @@ class MainActivity : AppCompatActivity() {
         player2.clear()
 
         for(cellId in 1..9){
-            var buSelected:Button?
-            buSelected = when(cellId){
+            var buSelected:Button? = when(cellId){
                 1 -> bu1
                 2 -> bu2
                 3 -> bu3
@@ -173,7 +174,7 @@ class MainActivity : AppCompatActivity() {
                 9 -> bu9
                 else -> {bu1}
             }
-            buSelected.text=""
+            buSelected!!.text=""
             buSelected.setBackgroundColor(R.color.warnaPutih)
             buSelected.isEnabled = true
         }

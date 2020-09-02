@@ -2,6 +2,7 @@ package com.hafidh.calculator
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import kotlinx.android.synthetic.main.activity_main.*
@@ -14,8 +15,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun buEvent(view:View){
+        if(isNewOperation) {
+            etShowNumber.setText("")
+        }
+        isNewOperation = false
         var buSelected = view as Button
         var buClickValue:String = etShowNumber.text.toString()
+        Log.d("LogNya", buSelected.toString())
         when(buSelected.id){
             bu0.id ->{
                 buClickValue +="0"
@@ -56,5 +62,62 @@ class MainActivity : AppCompatActivity() {
             }
         }
         etShowNumber.setText(buClickValue)
+    }
+
+    var op="+"
+    var oldNumber = ""
+    var isNewOperation = true
+
+    fun buOpEvent(view: View){
+        var buSelected = view as Button
+        var buClickValue = etShowNumber.text.toString()
+        when(buSelected.id){
+            buMul.id -> {
+                op="*"
+            }
+            buDiv.id -> {
+                op="/"
+            }
+            buSub.id -> {
+                op="-"
+            }
+            buSum.id -> {
+                op="+"
+            }
+        }
+        oldNumber = etShowNumber.text.toString()
+        isNewOperation = true
+    }
+
+    fun buEqualEvent(view: View){
+        val newNumber = etShowNumber.text.toString()
+        var finalNumber:Double?=null
+        when(op){
+            "*"->{
+                finalNumber = oldNumber.toDouble() * newNumber.toDouble()
+            }
+            "/"->{
+                finalNumber = oldNumber.toDouble() / newNumber.toDouble()
+            }
+            "+"->{
+                finalNumber = oldNumber.toDouble() + newNumber.toDouble()
+            }
+            "-"->{
+                finalNumber = oldNumber.toDouble() - newNumber.toDouble()
+            }
+        }
+        etShowNumber.setText(finalNumber.toString())
+        isNewOperation = true
+    }
+
+    fun buPercent(view: View){
+        val number = etShowNumber.text.toString().toDouble()/100
+        etShowNumber.setText(number.toString())
+        isNewOperation = true
+    }
+
+    fun buClean(view: View){
+        etShowNumber.setText("0")
+        isNewOperation = true
     }
 }

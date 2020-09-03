@@ -163,15 +163,15 @@
                 android:layout_height="20pt" android:id="@+id/bu0"
                 android:background="@color/WhiteBack"
                 android:textSize="14sp"
-                android:layout_weight="7" android:onClick="buEvent"
-                android:layout_marginRight="3px"/>
+                android:onClick="buEvent"
+                android:layout_marginRight="3px" android:layout_weight="1"/>
         <Button
                 android:text=","
                 android:layout_width="30pt"
                 android:layout_height="20pt" android:id="@+id/buDot"
                 android:background="@color/WhiteBack"
                 android:textSize="14sp"
-                android:layout_weight="2" android:onClick="buEvent"
+                android:onClick="buEvent"
                 android:layout_marginRight="3px"/>
         <Button
                 android:text="="
@@ -180,6 +180,6 @@
                 android:background="@color/buOperationColor"
                 android:textColor="@color/Putih"
                 android:textSize="14sp"
-                android:layout_weight="2" android:onClick="buEqualEvent"/>
+                android:onClick="buEqualEvent"/>
     </LinearLayout>
 </LinearLayout>

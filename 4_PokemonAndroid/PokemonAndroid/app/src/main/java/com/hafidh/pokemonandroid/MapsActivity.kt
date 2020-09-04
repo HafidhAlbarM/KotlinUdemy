@@ -1,6 +1,10 @@
 package com.hafidh.pokemonandroid
 
+import android.content.Context
 import android.content.pm.PackageManager
+import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -15,6 +19,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import java.lang.Exception
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -47,6 +52,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     fun GetUserLocation(){
         Toast.makeText(this,"Lokasi user menyala", Toast.LENGTH_LONG).show()
         //TODO: akan di implementasi nanti
+
+        var myLocation = MylocationListener()
+        var locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3, 3f, myLocation)
+        var mythread = myThread()
+        mythread.start()
     }
 
     //ketika requestPermissions() maka akan memanggil(fired) method ini
@@ -85,5 +97,67 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                         .snippet("Ini adalah lokasi saya")
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.mario)))
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 14f))
+    }
+
+    var location:Location?=null
+    //get lokasi
+    inner class MylocationListener:LocationListener{
+
+        constructor(){
+            location = Location("Start")
+            location!!.latitude = 0.0
+            location!!.longitude = 0.0
+        }
+
+        override fun onLocationChanged(provider: Location) {
+            location=provider
+        }
+
+        //ketika GPS berganti ke on/off
+        override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
+            //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
+
+        //GPS ON
+        override fun onProviderEnabled(provider: String) {
+            //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
+
+        //GPS OFF
+        override fun onProviderDisabled(provider: String) {
+            //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
+    }
+
+    //kirim lokasi ke user interface
+    //tapi thread gabisa komunikasi ke UI
+    inner class myThread:Thread{
+        constructor():super(){
+
+        }
+
+        override fun run() {
+            while(true){
+                try{
+
+                    runOnUiThread{
+                        mMap.clear()
+                        // Add a marker in Sydney and move the camera
+                        val sydney = LatLng(location!!.latitude, location!!.longitude)
+                        mMap.addMarker(MarkerOptions()
+                            .position(sydney)
+                            .title("Saya")
+                            .snippet("Ini adalah lokasi saya")
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.mario)))
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 14f))
+                    }
+
+                    Thread.sleep(1000)
+
+                }catch (Ex:Exception){
+
+                }
+            }
+        }
     }
 }
